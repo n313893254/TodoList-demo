@@ -12,9 +12,9 @@ class App extends Component {
     }
   }
   render() {
-    let todos = this.state.todoList.map(item,index)=>{
+    let todos = this.state.todoList.map((item,index)=>{
       return <li>{item.title}</li>
-    }
+    })
     return (
       <div className="App">
         <h1>我的待办</h1>
@@ -24,7 +24,7 @@ class App extends Component {
         </div>
         <ol>
           {todos}
-        <ol>
+        </ol>
       </div>
     );
   }
