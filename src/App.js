@@ -4,7 +4,6 @@ import './reset.css'
 import './App.css';
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
-import * as localStore from './localStore'
 
 import AV from 'leancloud-storage'
 var APP_ID = '1HFk15qgrkcry6Xjq8BSCLHu-gzGzoHsz'
@@ -14,20 +13,12 @@ AV.init({
   appKey: APP_KEY
 })
 
-var TestObject = AV.Object.extend('TestObject');
-var testObject = new TestObject();
-testObject.save({
-  words: 'Hello World!'
-}).then(function(object) {
-  alert('LeanCloud Rocks!')
-})
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newTodo: '',
-      todoList: localStore.load('todoList') || []
+      todoList: []
     }
   }
 
@@ -58,7 +49,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    localStore.save('todoList', this.state.todoList);
+
   }
 
   toggle(e, todo) {
