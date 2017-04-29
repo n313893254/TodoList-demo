@@ -4,6 +4,7 @@ import './reset.css'
 import './App.css';
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
+import UserDialog from './UserDialog'
 
 import AV from 'leancloud-storage'
 var APP_ID = '1HFk15qgrkcry6Xjq8BSCLHu-gzGzoHsz'
@@ -44,6 +45,7 @@ class App extends Component {
         <ol className="todoList">
           {todos}
         </ol>
+        <UserDialog />
       </div>
     );
   }
