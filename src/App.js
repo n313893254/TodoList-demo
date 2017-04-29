@@ -6,6 +6,22 @@ import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
 import * as localStore from './localStore'
 
+import AV from 'leancloud-storage'
+var APP_ID = '1HFk15qgrkcry6Xjq8BSCLHu-gzGzoHsz'
+var APP_KEY = 'oCdUooAairIUrKxIACARN2po'
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+})
+
+var TestObject = AV.Object.extend('TestObject');
+var testObject = new TestObject();
+testObject.save({
+  words: 'Hello World!'
+}).then(function(object) {
+  alert('LeanCloud Rocks!')
+})
+
 class App extends Component {
   constructor(props) {
     super(props);
