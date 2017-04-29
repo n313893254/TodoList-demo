@@ -11,7 +11,7 @@
   "devDependencies": {
     "react-scripts": "0.9.5"
   },
-  "homepage": "https://n313893254.github.io/webpack-demo/build",
+  "homepage": "https://n313893254.github.io/TodoList-demo/build",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
