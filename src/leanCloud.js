@@ -8,3 +8,24 @@ AV.init({
 })
 
 export default AV
+
+export function signUp(username, password, successFn, errorFn) {
+  var user = new AV.User();
+  user.setUsername(username);
+  user.setPassword(password);
+  user.signUp().then(function (loginUser) {
+    let user = getUserFromAVUser(loginUser);
+    successFn.call(null, user)
+  }, function (error) {
+    errorFn.call(null, error)
+  })
+
+  return undefined;
+}
+
+function getUserFromAVUser(AVUser) {
+  return {
+    id: AVUser.id,
+    ...AVUser.attributes
+  }
+}
