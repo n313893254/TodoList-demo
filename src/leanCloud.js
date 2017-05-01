@@ -13,13 +13,36 @@ export function signUp(username, password, successFn, errorFn) {
   var user = new AV.User();
   user.setUsername(username);
   user.setPassword(password);
-  user.signUp().then(function (loginUser) {
-    let user = getUserFromAVUser(loginUser);
+  user.signUp().then(function (logindUser) {
+    let user = getUserFromAVUser(logindUser);
     successFn.call(null, user)
   }, function (error) {
     errorFn.call(null, error)
   })
 
+  return undefined;
+}
+
+export function signIn(username, password, successFn, errorFn) {
+  AV.User.logIn(username, password).then(function (logindUser) {
+    let user = getUserFromAVUser(logindUser)
+    successFn.call(null, user)
+  }, function (error) {
+    errorFn.call(null, error)
+  })
+}
+
+export function getCurrentUser() {
+  let user = AV.User.current();
+  if(user) {
+    return getUserFromAVUser(user);
+  } else {
+    return null;
+  }
+}
+
+export function signOut() {
+  AV.User.logOut();
   return undefined;
 }
 

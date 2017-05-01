@@ -5,20 +5,13 @@ import './App.css';
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
 import UserDialog from './UserDialog'
-
-import AV from 'leancloud-storage'
-var APP_ID = '1HFk15qgrkcry6Xjq8BSCLHu-gzGzoHsz'
-var APP_KEY = 'oCdUooAairIUrKxIACARN2po'
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-})
+import {getCurrentUser, signOut} from './leanCloud'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      user: getCurrentUser() || {},
       newTodo: '',
       todoList: []
     }
@@ -37,7 +30,9 @@ class App extends Component {
     })
     return (
       <div className="App">
-        <h1>{this.state.user.username || '我'}的待办</h1>
+        <h1>{this.state.user.username || '我'}的待办
+          {this.state.user.id ? <button onClick={this.signOut.bind(this)}>登出</button> : null}
+        </h1>
         <div className="inputWrapper">
           <TodoInput content={this.state.newTodo}
             onChange={this.changeTitle.bind(this)}
@@ -46,14 +41,26 @@ class App extends Component {
         <ol className="todoList">
           {todos}
         </ol>
-        <UserDialog onSignUp={this.onSignUp.bind(this)} />
+        {this.state.user.id ?
+          null :
+          <UserDialog
+            onSignUp={this.onSignUpOrSignIn.bind(this)}
+            onSignIn={this.onSignUpOrSignIn.bind(this)}/>}
       </div>
     );
   }
-  onSignUp(user) {
+
+  signOut() {
+    signOut();
+    let stateCopy = JSON.parse(JSON.stringify(this.state));
+    stateCopy.user = {};
+    this.setState(stateCopy);
+  }
+
+  onSignUpOrSignIn(user) {
     let stateCopy = JSON.parse(JSON.stringify(this.state))
     stateCopy.user = user;
-    this.setState(this.state);
+    this.setState(stateCopy);
   }
 
   componentDidUpdate() {
